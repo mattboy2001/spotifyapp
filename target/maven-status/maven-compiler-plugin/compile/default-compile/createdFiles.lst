@@ -1,0 +1,5 @@
+com\App.class
+com\Redirect.class
+com\App$RedirectServer.class
+com\JSONParser.class
+com\URLAuthorisation.class

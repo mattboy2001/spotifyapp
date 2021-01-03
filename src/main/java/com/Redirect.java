@@ -1,4 +1,4 @@
-package main.java;
+package com;
 
 import java.io.*;
 import java.net.*;
@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 
 
-public class RedirectServer implements Runnable {
+public class Redirect implements Runnable {
 
     private static final File WEB_ROOT = new File(".");
     private static final String DEFAULT_FILE = "index.html";
@@ -46,31 +46,10 @@ public class RedirectServer implements Runnable {
 
 
 
-    public RedirectServer(Socket c) {
+    public Redirect(Socket c) {
         connect = c;
     }
 
-    public static void main(String[] args) {
-        try {
-            ServerSocket serverConnect = new ServerSocket(PORT);
-            System.out.println("Server started --> " + PORT);
-
-
-            while (true) {
-                RedirectServer oauth2 = new RedirectServer(serverConnect.accept());
-
-                if (verbose) {
-                    System.out.println("Connection opened with client");
-                }
-
-                Thread newThread = new Thread(oauth2);
-                newThread.start();
-            }
-        }
-        catch(IOException ioe) {
-            System.err.println("Server connection error : " + ioe.getMessage());
-        }
-    }
 
     @Override
     public void run() {
@@ -119,7 +98,7 @@ public class RedirectServer implements Runnable {
 
                 if (addressMatches) {
                     String auth_code = m.group("code").substring(0, m.group("code").length() - 1);
-                    System.out.println("Supplied authentication code: " + auth_code "\n");
+                    System.out.println("Supplied authentication code: " + auth_code + "\n");
                     String formattedString = String.format("%s:%s", CLIENT_ID, CLIENT_SECRET);
                     String encoded_auth = Base64.getUrlEncoder().encodeToString((formattedString).getBytes());
                     String command = "curl -H \"Authorization: Basic "+ encoded_auth + "\" -d grant_type=authorization_code -d code=" + auth_code + " -d redirect_uri=" + REDIRECT_URI + " https://accounts.spotify.com/api/token";
