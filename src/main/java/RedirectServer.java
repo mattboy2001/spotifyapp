@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-import org.json.JSONObject;
 
 public class RedirectServer implements Runnable {
 
